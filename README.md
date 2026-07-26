@@ -55,4 +55,4 @@
 
 ---
 
-*Designed & Developed for High-End Markdown Workflows.*
+*Designed & Prepared by Eliana Noé — Let's get High-End markdown workflows.*
