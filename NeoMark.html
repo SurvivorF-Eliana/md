@@ -1,1 +1,73 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NeoMark · loading…</title>
+<style>
+  html,body{margin:0;height:100%;background:#07070a;color:#e4e4ec;font-family:system-ui,sans-serif}
+  .boot{display:flex;align-items:center;justify-content:center;height:100%;gap:10px}
+</style>
+</head>
+<body>
+<div class="boot" id="boot">Cargando NeoMark…</div>
+<script>
+(async function () {
+  // Base known-good build from last full commit on this repo
+  const BASE = 'https://cdn.jsdelivr.net/gh/SurvivorF-Eliana/md@c5c36d6e29bd8770d6f683e1fa3f01483d9b5308/NeoMark.html';
+  try {
+    const res = await fetch(BASE);
+    let html = await res.text();
+
+    // --- Old paper mode (replace plain light) ---
+    html = html.replace(
+      /\.light \{[\s\S]*?--toolbar-bg: #e0e0e8;\s*\}/,
+      `.paper {
+            --bg: #e8dcc4;
+            --bg-secondary: #d9cbb0;
+            --bg-card: #f3e8d0;
+            --bg-hover: #cfc0a4;
+            --text: #2a2118;
+            --text-secondary: #5c4e3a;
+            --text-muted: #8a7a62;
+            --primary: #6b4f2a;
+            --primary-dim: rgba(107, 79, 42, 0.14);
+            --border: #c4b392;
+            --border-light: #d4c6a8;
+            --toolbar-bg: #d4c6a8;
+        }
+        body.paper {
+            background-image:
+              radial-gradient(ellipse at 20% 10%, rgba(180,140,80,0.12), transparent 50%),
+              radial-gradient(ellipse at 80% 90%, rgba(120,90,50,0.08), transparent 45%);
+        }
+        body.paper #editorTextarea { background: #f0e6d0; color: #2a2118; }
+        body.paper code, body.paper pre { background: #e0d4b8 !important; color: #3a2e20 !important; }`
+    );
+
+    html = html.replace(
+      "if (state.theme === 'light') document.body.classList.add('light');",
+      "if (state.theme === 'paper' || state.theme === 'light') { state.theme = 'paper'; document.body.classList.add('paper'); }"
+    );
+
+    html = html.replace(
+      "state.theme = state.theme === 'dark' ? 'light' : 'dark';\n                document.body.classList.toggle('light', state.theme === 'light');",
+      "state.theme = state.theme === 'dark' ? 'paper' : 'dark';\n                document.body.classList.remove('light');\n                document.body.classList.toggle('paper', state.theme === 'paper');"
+    );
+
+    html = html.replace(
+      "document.body.className = `mode-${mode} ${state.theme}`;",
+      "document.body.className = `mode-${mode} ${state.theme === 'light' ? 'paper' : state.theme}`;"
+    );
+
+    document.open();
+    document.write(html);
+    document.close();
+  } catch (e) {
+    document.getElementById('boot').textContent = 'Error cargando NeoMark: ' + e.message +
+      ' — abrí https://cdn.jsdelivr.net/gh/SurvivorF-Eliana/md@c5c36d6e29bd8770d6f683e1fa3f01483d9b5308/NeoMark.html';
+  }
+})();
+</script>
+</body>
+</html>
