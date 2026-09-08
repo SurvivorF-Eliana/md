@@ -4,80 +4,159 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>NeoMark · loading…</title>
-<link rel="icon" href="./icon.svg" type="image/svg+xml" />
-<link rel="apple-touch-icon" href="./icon.svg" />
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/e_Logo5.png" />
 <style>
   html,body{margin:0;height:100%;background:#07070a;color:#e4e4ec;font-family:system-ui,sans-serif}
   .boot{display:flex;align-items:center;justify-content:center;height:100%;gap:10px}
 </style>
 </head>
 <body>
-<div class="boot" id="boot">Cargando NeoMark…</div>
+<div class="boot" id="boot">Cargando NeoMark v07…</div>
 <script>
 (async function () {
   const BASE = 'https://cdn.jsdelivr.net/gh/SurvivorF-Eliana/md@c5c36d6e29bd8770d6f683e1fa3f01483d9b5308/NeoMark.html';
+  const L5 = 'https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/e_Logo5.png';
+  const L6 = 'https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/e_Logo6.png';
+  const LB = 'https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/';
+  function need(html, s, label) {
+    if (html.indexOf(s) < 0) throw new Error('patch miss: ' + label);
+  }
   try {
-    const res = await fetch(BASE);
+    const res = await fetch(BASE + '?v=07');
     let html = await res.text();
 
-    if (!html.includes('rel="icon"')) {
+    html = html.replace(/<link rel="icon"[^>]*>/, '<link rel="icon" type="image/png" id="faviconEl" href="' + L5 + '" />');
+
+    if (html.indexOf('mammoth.browser.min.js') < 0) {
       html = html.replace(
-        /<head>/i,
-        '<head>\n<link rel="icon" href="https://cdn.jsdelivr.net/gh/SurvivorF-Eliana/md@main/icon.svg" type="image/svg+xml" />'
+        '<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"><' + '/script>',
+        '<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"><' + '/script>\n    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"><' + '/script>\n    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"><' + '/script>'
       );
     }
 
-    html = html.replace(
-      /\.light \{[\s\S]*?--toolbar-bg: #e0e0e8;\s*\}/,
-      `.paper {
-            --bg: #e8dcc4;
-            --bg-secondary: #d9cbb0;
-            --bg-card: #f3e8d0;
-            --bg-hover: #cfc0a4;
-            --text: #2a2118;
-            --text-secondary: #5c4e3a;
-            --text-muted: #8a7a62;
-            --primary: #6b4f2a;
-            --primary-dim: rgba(107, 79, 42, 0.14);
-            --border: #c4b392;
-            --border-light: #d4c6a8;
-            --toolbar-bg: #d4c6a8;
-        }
-        body.paper {
-            background-image:
-              radial-gradient(ellipse at 20% 10%, rgba(180,140,80,0.12), transparent 50%),
-              radial-gradient(ellipse at 80% 90%, rgba(120,90,50,0.08), transparent 45%);
-        }
-        body.paper #editorTextarea { background: #f0e6d0; color: #2a2118; }
-        body.paper code, body.paper pre { background: #e0d4b8 !important; color: #3a2e20 !important; }`
-    );
+    var oldLight = '        .light {\n            --bg: #f4f4f8;\n            --bg-secondary: #e6e6ee;\n            --bg-card: #ffffff;\n            --bg-hover: #dcdce6;\n            --text: #1a1a24;\n            --text-secondary: #4a4a5c;\n            --text-muted: #7a7a8c;\n            --primary: #007a9a;\n            --primary-dim: rgba(0, 122, 154, 0.12);\n            --border: #c8c8d4;\n            --border-light: #d4d4e0;\n            --toolbar-bg: #e0e0e8;\n        }';
+    need(html, oldLight, 'light-css');
+    html = html.replace(oldLight, '        .light, .paper {\n            --bg: #e8dcc4;\n            --bg-secondary: #d9cbb0;\n            --bg-card: #f3e8d0;\n            --bg-hover: #cfc0a4;\n            --text: #2a2118;\n            --text-secondary: #5c4e3a;\n            --text-muted: #8a7a62;\n            --primary: #6b4f2a;\n            --primary-dim: rgba(107, 79, 42, 0.14);\n            --border: #c4b392;\n            --border-light: #d4c6a8;\n            --toolbar-bg: #d4c6a8;\n        }\n        body.paper, body.light {\n            background-image:\n              radial-gradient(ellipse at 20% 10%, rgba(180,140,80,0.12), transparent 50%),\n              radial-gradient(ellipse at 80% 90%, rgba(120,90,50,0.08), transparent 45%);\n        }\n        body.paper #editorTextarea, body.light #editorTextarea { background: #f0e6d0; color: #2a2118; }\n        .logo img.brand { width:30px;height:30px;object-fit:contain;border-radius:6px;background:var(--bg-card);border:1px solid var(--border);cursor:pointer; }\n        .preview-panel.align-left{text-align:left}\n        .preview-panel.align-center{text-align:center}\n        .preview-panel.align-right{text-align:right}\n        .preview-panel.align-justify{text-align:justify;hyphens:auto}\n        .preview-panel.align-justify pre,.preview-panel.align-justify table,.preview-panel.align-justify code{text-align:left}\n        #toolbar button.align-active{color:var(--primary);background:var(--primary-dim)}');
+
+    var oldLogo = '    <div class="logo">\n        <div class="icon"><i class="fa-solid fa-cube"></i></div>\n        <span class="title">NeoMark</span>\n        <span class="badge-ver">v06</span>\n    </div>\n    <div class="header-actions">\n        <!-- Toggle Sidebar -->\n        <button id="toggleSidebarBtn" class="btn-icon" title="Toggle sidebar"><i class="fa-solid fa-bars"></i></button>';
+    need(html, oldLogo, 'logo');
+    html = html.replace(oldLogo, '    <div class="logo">\n        <img class="brand" id="brandLogo" alt="NeoMark" src="' + L5 + '" />\n        <span class="title">NeoMark</span>\n        <button id="toggleSidebarBtn" class="btn-icon" title="Toggle sidebar" style="width:30px;height:30px;"><i class="fa-solid fa-bars"></i></button>\n        <span class="badge-ver">v07</span>\n    </div>\n    <div class="header-actions">');
+
+    var oldRadio = '        <!-- Bot\u00f3n Radios -->\n        <button id="radioBtn" class="btn-icon" title="Fungi Radios"><i class="fa-solid fa-radio"></i></button>\n\n        <!-- Bot\u00f3n GitHub -->\n        <a href="https://github.com/Colind8/Fungi-Radio" target="_blank" class="btn-icon" title="GitHub"><i class="fa-brands fa-github"></i></a>';
+    need(html, oldRadio, 'radio');
+    html = html.replace(oldRadio, '        <!-- Bot\u00f3n GitHub -->\n        <a href="https://github.com/SurvivorF-Eliana/" target="_blank" class="btn-icon" title="GitHub SurvivorF-Eliana"><i class="fa-brands fa-github"></i></a>');
+
+    html = html.split('https://github.com/Colind8/Fungi-Radio').join('https://github.com/SurvivorF-Eliana/');
+    html = html.replace('accept=".md,.markdown,text/markdown"', 'accept=".md,.markdown,.txt,.html,.json,.xml,.csv,.tsv,.xlsx,.xls,.docx,.doc,.rtf,.css,.js,.ts"');
+    html = html.replace('Arrastrar .md', 'Arrastrar md / docx / csv / xlsx');
+    html = html.split('NeoMark v06').join('NeoMark v07');
+    html = html.replace("const STORAGE_KEY = 'neomark_v06';", "const STORAGE_KEY = 'neomark_v07';");
+
+    var oldTb = '            <button data-format="image"><i class="fa-solid fa-image"></i></button>\n            <div style="margin-left: auto; display: flex; gap: 4px;">';
+    need(html, oldTb, 'toolbar');
+    html = html.replace(oldTb, '            <button data-format="image"><i class="fa-solid fa-image"></i></button>\n            <span class="separator"></span>\n            <button type="button" data-align="left" title="Alinear izquierda"><i class="fa-solid fa-align-left"></i></button>\n            <button type="button" data-align="center" title="Centrar"><i class="fa-solid fa-align-center"></i></button>\n            <button type="button" data-align="right" title="Alinear derecha"><i class="fa-solid fa-align-right"></i></button>\n            <button type="button" data-align="justify" title="Justificar"><i class="fa-solid fa-align-justify"></i></button>\n            <div style="margin-left: auto; display: flex; gap: 4px;">');
+
+    var oldState = "            theme: 'dark',\n            sidebarVisible: true,\n            lang: 'es'\n        };";
+    need(html, oldState, 'state');
+    html = html.replace(oldState, "            theme: 'dark',\n            sidebarVisible: true,\n            lang: 'es',\n            align: 'left',\n            logoIdx: 0\n        };");
 
     html = html.replace(
       "if (state.theme === 'light') document.body.classList.add('light');",
-      "if (state.theme === 'paper' || state.theme === 'light') { state.theme = 'paper'; document.body.classList.add('paper'); }"
+      "if (state.theme === 'light' || state.theme === 'paper') { state.theme = 'paper'; document.body.classList.add('paper','light'); }"
     );
 
-    html = html.replace(
-      "state.theme = state.theme === 'dark' ? 'light' : 'dark';\n                document.body.classList.toggle('light', state.theme === 'light');",
-      "state.theme = state.theme === 'dark' ? 'paper' : 'dark';\n                document.body.classList.remove('light');\n                document.body.classList.toggle('paper', state.theme === 'paper');"
-    );
+    var oldLf = "        function loadFiles(files) {\n            Array.from(files).forEach(f => {\n                const reader = new FileReader();\n                reader.onload = e => {\n                    state.files[f.name] = { name: f.name, content: e.target.result };\n                    renderFileList();\n                    selectFile(f.name);\n                };\n                reader.readAsText(f);\n            });\n        }";
+    need(html, oldLf, 'loadFiles');
+    html = html.replace(oldLf, [
+      "        async function fileToMarkdown(file) {",
+      "            const name = file.name || 'archivo';",
+      "            const ext = (name.split('.').pop() || '').toLowerCase();",
+      "            const stem = name.replace(/\\.[^.]+$/, '');",
+      "            if (['md','markdown'].includes(ext)) return await file.text();",
+      "            if (['txt','text','log','rtf'].includes(ext)) return '# ' + stem + '\\n\\n' + (await file.text());",
+      "            if (['html','htm','json','xml','css','js','ts'].includes(ext)) return '# ' + stem + '\\n\\n```' + ext + '\\n' + (await file.text()) + '\\n```\\n';",
+      "            if (['csv','tsv'].includes(ext) && typeof XLSX !== 'undefined') { const wb = XLSX.read(await file.text(), {type:'string'}); return sheetToMd(wb); }",
+      "            if (['xlsx','xls'].includes(ext) && typeof XLSX !== 'undefined') { const wb = XLSX.read(await file.arrayBuffer(), {type:'array'}); return sheetToMd(wb); }",
+      "            if (['docx','doc'].includes(ext) && typeof mammoth !== 'undefined') {",
+      "              try { const r = await mammoth.convertToMarkdown({arrayBuffer: await file.arrayBuffer()}); return '# ' + stem + '\\n\\n' + (r.value||''); }",
+      "              catch (e) { return '# ' + stem + '\\n\\n> no pude leer este .' + ext; }",
+      "            }",
+      "            try { const t = await file.text(); if (t && t.indexOf('\\0') < 0) return '# ' + stem + '\\n\\n' + t; } catch (e) {}",
+      "            return '# ' + stem + '\\n\\n> formato .' + ext + ' no soportado';",
+      "        }",
+      "        function sheetToMd(wb) {",
+      "            const parts = [];",
+      "            wb.SheetNames.forEach(function(n,i){",
+      "              const rows = XLSX.utils.sheet_to_json(wb.Sheets[n], {header:1, raw:false, defval:''});",
+      "              if (!rows.length) return;",
+      "              parts.push((i? '## ':'# ') + n);",
+      "              const cols = Math.max.apply(null, rows.map(function(r){return r.length;}));",
+      "              const head = (rows[0]||[]).map(function(c){return String(c||' ').replace(/\\|/g,'\\\\|');});",
+      "              while (head.length < cols) head.push('');",
+      "              parts.push('', '| ' + head.join(' | ') + ' |', '| ' + head.map(function(){return '---';}).join(' | ') + ' |');",
+      "              rows.slice(1).forEach(function(r){ const cells=[]; for (var c=0;c<cols;c++) cells.push(String(r[c]==null?'':r[c]).replace(/\\|/g,'\\\\|')); parts.push('| ' + cells.join(' | ') + ' |'); });",
+      "              parts.push('');",
+      "            });",
+      "            return parts.join('\\n') || '# hoja vacia';",
+      "        }",
+      "        async function loadFiles(files) {",
+      "            for (const f of Array.from(files)) {",
+      "              try {",
+      "                const content = await fileToMarkdown(f);",
+      "                let key = /\\.md$/i.test(f.name) ? f.name : f.name.replace(/\\.[^.]+$/, '') + '.md';",
+      "                let unique = key, n = 2;",
+      "                while (state.files[unique] && state.files[unique].content !== content) { unique = key.replace(/\\.md$/i,'') + '-' + n + '.md'; n++; }",
+      "                state.files[unique] = { name: unique, content: content };",
+      "                renderFileList(); selectFile(unique);",
+      "              } catch (err) { alert('No pude leer ' + f.name + ': ' + (err.message || err)); }",
+      "            }",
+      "            saveSession();",
+      "        }",
+      "        function applyAlign(align) {",
+      "            state.align = align || 'left';",
+      "            previewPanel.classList.remove('align-left','align-center','align-right','align-justify');",
+      "            previewPanel.classList.add('align-' + state.align);",
+      "            document.querySelectorAll('[data-align]').forEach(function(b){ b.classList.toggle('align-active', b.dataset.align === state.align); });",
+      "            saveSession();",
+      "        }",
+      "        function applyBrand() {",
+      "            var paper = state.theme === 'paper' || state.theme === 'light';",
+      "            var set = paper ? ['e_Logo6.png','e_Logo4.png','e_Logo2.png'] : ['e_Logo5.png','e_Logo3.png','e_Logo1.png'];",
+      "            var src = '" + LB + "' + set[(state.logoIdx||0)%set.length];",
+      "            var logo = document.getElementById('brandLogo');",
+      "            var fav = document.getElementById('faviconEl');",
+      "            if (logo) logo.src = src; if (fav) fav.href = src;",
+      "            document.body.classList.toggle('paper', paper);",
+      "            document.body.classList.toggle('light', paper);",
+      "        }"
+    ].join('\n'));
 
     html = html.replace(
       "document.body.className = `mode-${mode} ${state.theme}`;",
-      "document.body.className = `mode-${mode} ${state.theme === 'light' ? 'paper' : state.theme}`;"
+      "document.body.className = `mode-${mode} ${state.theme === 'light' ? 'paper' : state.theme}`;\n            if (typeof applyBrand === 'function') applyBrand();"
     );
 
+    var oldTh = "            themeToggle.addEventListener('click', () => {\n                state.theme = state.theme === 'dark' ? 'light' : 'dark';\n                document.body.classList.toggle('light', state.theme === 'light');\n                applyMode(state.mode);\n            });";
+    need(html, oldTh, 'theme');
+    html = html.replace(oldTh, "            themeToggle.addEventListener('click', () => {\n                state.theme = state.theme === 'dark' ? 'paper' : 'dark';\n                if (typeof applyBrand === 'function') applyBrand();\n                applyMode(state.mode);\n            });\n            document.querySelectorAll('[data-align]').forEach(function(btn){\n              btn.addEventListener('click', function(){ applyAlign(btn.dataset.align); });\n            });\n            if (typeof applyAlign === 'function') applyAlign(state.align || 'left');\n            var brand = document.getElementById('brandLogo');\n            if (brand) brand.addEventListener('click', function(){ state.logoIdx = ((state.logoIdx||0)+1)%3; applyBrand(); saveSession(); });");
+
     html = html.replace(
-      'https://github.com/Colind8/Fungi-Radio',
-      'https://github.com/SurvivorF-Eliana/'
+      "radioBtn.addEventListener('click', () => {\n                radioPopup.classList.toggle('visible');\n            });",
+      "if (radioBtn) radioBtn.addEventListener('click', () => {\n                if (radioPopup) radioPopup.classList.toggle('visible');\n            });"
+    );
+
+    html = html.replace('<div id="radioPopup">', '<div id="radioPopup" style="display:none!important">');
+    html = html.replace(
+      'Cargá archivos .md, arrastrá documentos o usá las plantillas.',
+      'Cargá md, docx, csv, xlsx, txt… o usá las plantillas.'
     );
 
     document.open();
     document.write(html);
     document.close();
   } catch (e) {
-    document.getElementById('boot').textContent = 'Error cargando NeoMark: ' + e.message +
-      ' — abrí https://cdn.jsdelivr.net/gh/SurvivorF-Eliana/md@c5c36d6e29bd8770d6f683e1fa3f01483d9b5308/NeoMark.html';
+    document.getElementById('boot').textContent = 'Error: ' + e.message;
+    console.error(e);
   }
 })();
 </script>
