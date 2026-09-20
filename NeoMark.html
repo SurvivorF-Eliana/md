@@ -237,7 +237,7 @@
   ui.vol.addEventListener('input',function(){volume=parseFloat(this.value);if(master)master.gain.setTargetAtTime(volume,ctx.currentTime,.03);save()});
   const savedTrack=parseInt(localStorage.getItem('neomark_ambient_track')||'0',10);if(!isNaN(savedTrack))idx=Math.max(0,Math.min(tracks.length-1,savedTrack));updateTrack();
 })();
-</script>`;
+<\/script>`;
     html = html.replace('</body>', ambientPatch + '\n</body>');
     html = html.replace(/NeoMark v07/g,'NeoMark v08');
     html = html.replace(/NeoMark · loading…/g,'NeoMark v08');
