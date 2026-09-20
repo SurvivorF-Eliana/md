@@ -156,7 +156,7 @@
     // Browser audio policy is respected: it starts only after the user presses play.
     const ambientPatch = String.raw`
 <style id="neomarkAmbientStyle">
-#neoAmbient{position:fixed;left:16px;bottom:16px;z-index:99999;display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid rgba(255,255,255,.12);background:rgba(8,9,12,.82);backdrop-filter:blur(12px);font:11px/1 JetBrains Mono,ui-monospace,monospace;letter-spacing:.05em;color:#b9bcc6;box-shadow:0 8px 30px rgba(0,0,0,.3);border-radius:8px}
+#neoAmbient{position:fixed;right:16px;top:68px;z-index:99999;display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid rgba(255,255,255,.12);background:rgba(8,9,12,.82);backdrop-filter:blur(12px);font:11px/1 JetBrains Mono,ui-monospace,monospace;letter-spacing:.05em;color:#b9bcc6;box-shadow:0 8px 30px rgba(0,0,0,.3);border-radius:8px}
 #neoAmbient button{width:25px;height:25px;padding:0;border:1px solid rgba(255,255,255,.12);background:transparent;color:#d6ff00;border-radius:5px;cursor:pointer}
 #neoAmbient button:hover{background:rgba(214,255,0,.09)}
 #neoAmbient .na-track{min-width:118px;color:#e6e7eb}
@@ -164,7 +164,7 @@
 #neoAmbient input[type=range]{width:72px;accent-color:#d6ff00}
 #neoAmbient .na-dot{width:5px;height:5px;border-radius:50%;background:#454852}
 #neoAmbient.playing .na-dot{background:#d6ff00;box-shadow:0 0 9px #d6ff00}
-@media(max-width:600px){#neoAmbient{left:8px;right:8px;bottom:8px}.na-track{flex:1;min-width:0!important}}
+@media(max-width:600px){#neoAmbient{left:8px;right:8px;top:62px.na-track{flex:1;min-width:0!important}}
 </style>
 <div id="neoAmbient" aria-label="NeoMark ambient player">
   <button id="naPrev" title="Pista anterior">‹</button>
@@ -228,12 +228,25 @@
   }
   async function toggle(){
     startAudio();if(!ctx)return;
-    if(ctx.state==='suspended'){await ctx.resume();ui.play.textContent='Ⅱ';ui.root.classList.add('playing')}
-    else{await ctx.suspend();ui.play.textContent='▶';ui.root.classList.remove('playing')}
+    if(ctx.state==='suspended'){
+      await ctx.resume();
+      ui.play.textContent='Ⅱ';
+      ui.root.classList.add('playing');
+    } else {
+      await ctx.suspend();
+      ui.play.textContent='▶';
+      ui.root.classList.remove('playing');
+    }
+  }
+  function ensurePlaying(){
+    startAudio();if(!ctx)return;
+    if(ctx.state==='suspended') ctx.resume();
+    ui.play.textContent='Ⅱ';
+    ui.root.classList.add('playing');
   }
   ui.play.addEventListener('click',toggle);
-  ui.prev.addEventListener('click',function(){idx=(idx-1+tracks.length)%tracks.length;updateTrack();if(ctx&&ctx.state==='suspended')toggle()});
-  ui.next.addEventListener('click',function(){idx=(idx+1)%tracks.length;updateTrack();if(ctx&&ctx.state==='suspended')toggle()});
+  ui.prev.addEventListener('click',function(){idx=(idx-1+tracks.length)%tracks.length;updateTrack();ensurePlaying()});
+  ui.next.addEventListener('click',function(){idx=(idx+1)%tracks.length;updateTrack();ensurePlaying()});
   ui.vol.addEventListener('input',function(){volume=parseFloat(this.value);if(master)master.gain.setTargetAtTime(volume,ctx.currentTime,.03);save()});
   const savedTrack=parseInt(localStorage.getItem('neomark_ambient_track')||'0',10);if(!isNaN(savedTrack))idx=Math.max(0,Math.min(tracks.length-1,savedTrack));updateTrack();
 })();
