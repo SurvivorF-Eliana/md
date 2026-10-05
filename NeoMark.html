@@ -1,2 +1,59 @@
 <!DOCTYPE html>
-<html lang="es"><head><meta charset="UTF-8"><title>NeoMark v08</title></head><body><p>placeholder</p></body></html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NeoMark</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/e_Logo5.png" />
+<style>html,body{margin:0;height:100%;background:#e8dcc4;color:#2a2118;font-family:system-ui} .boot{display:flex;align-items:center;justify-content:center;height:100%}</style>
+</head>
+<body>
+<div class="boot" id="boot">Cargando NeoMark…</div>
+<script>
+(async function () {
+  var POLISH = '<style id="nm-polish">'
+    + '#radioBtn,#neoAmbient,#ambientPlayer,.fungi-radio{display:none!important}'
+    + '.mode-view #toolbar{display:none!important}'
+    + '.mode-view .preview-panel{max-width:72ch;margin:0 auto;padding:48px 28px 80px}'
+    + '.preview-panel{background:var(--bg)!important;color:var(--text)!important}'
+    + '.preview-panel blockquote{background:transparent!important;border:none!important;border-left:2px solid var(--primary)!important;border-radius:0!important;padding:.15em 0 .15em 1em!important;margin:.8em 0!important;color:var(--text-secondary)!important;font-style:italic}'
+    + '.preview-panel pre,.preview-panel :not(pre)>code{background:color-mix(in srgb, var(--bg-secondary) 55%, transparent)!important}'
+    + '.hud-metrics{opacity:.5;font-size:11px}'
+    + '.lang-selector{display:none}'
+    + '.lang-selector.open{display:flex;position:absolute;top:52px;right:16px;z-index:50;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:8px;flex-wrap:wrap;max-width:240px;gap:4px;box-shadow:0 10px 30px rgba(0,0,0,.18)}'
+    + '#fileSearch{width:calc(100% - 16px);margin:8px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 8px;font-size:12px}'
+    + '#sidebar .drop-zone{font-size:11px;opacity:.75}'
+    + '</style><script>'
+    + 'document.addEventListener("DOMContentLoaded",function(){'
+    + 'var rb=document.getElementById("radioBtn"); if(rb) rb.remove();'
+    + 'var amb=document.getElementById("neoAmbient"); if(amb) amb.remove();'
+    + 'document.querySelectorAll("a[href*=Fungi-Radio]").forEach(function(a){a.href="https://github.com/SurvivorF-Eliana/";});'
+    + 'var lang=document.getElementById("langSelector");'
+    + 'if(lang && !document.getElementById("langMenuBtn")){'
+    + 'var b=document.createElement("button"); b.id="langMenuBtn"; b.className="btn-icon"; b.title="Idioma"; b.textContent="Aa";'
+    + 'lang.parentNode.insertBefore(b, lang);'
+    + 'b.addEventListener("click",function(e){e.stopPropagation(); lang.classList.toggle("open");});'
+    + 'document.addEventListener("click",function(){lang.classList.remove("open");});}'
+    + 'var list=document.getElementById("fileList");'
+    + 'if(list && !document.getElementById("fileSearch")){'
+    + 'var s=document.createElement("input"); s.id="fileSearch"; s.placeholder="Buscar archivo\u2026";'
+    + 'list.parentNode.insertBefore(s, list);'
+    + 's.addEventListener("input",function(){var q=s.value.toLowerCase(); document.querySelectorAll("#fileList .file-item").forEach(function(el){el.style.display=!q||(el.textContent||"").toLowerCase().indexOf(q)>=0?"":"none";});});}'
+    + 'var exp=document.querySelector(".workspace-actions");'
+    + 'if(exp && !document.getElementById("printBtn")){var p=document.createElement("button"); p.id="printBtn"; p.className="btn-mode"; p.textContent="Imprimir"; p.onclick=function(){window.print();}; exp.appendChild(p);}'
+    + '});<' + '/script>';
+  try {
+    var res = await fetch('https://cdn.jsdelivr.net/gh/SurvivorF-Eliana/md@def9faea9a8cd478627b73278a93f7379e45a031/NeoMark.html');
+    var src = await res.text();
+    if (src.indexOf('<!DOCTYPE') < 0) throw new Error('no pude recuperar el loader');
+    src = src.replace("html = html.replace('</body>', ambientPatch + '\\n</body>');", "html = html.replace('</body>', ambientPatch + " + JSON.stringify(POLISH) + " + '\\n</body>');");
+    document.open();
+    document.write(src);
+    document.close();
+  } catch (e) {
+    document.getElementById('boot').textContent = 'Error: ' + e.message;
+  }
+})();
+</script>
+</body>
+</html>
