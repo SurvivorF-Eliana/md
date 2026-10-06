@@ -190,7 +190,7 @@ addEventListener('keydown',e=>{const mod=e.ctrlKey||e.metaKey,k=e.key.toLowerCas
 }
 function closeMobile(){if(innerWidth<=900){$('#sidebar').classList.remove('open');$('#shell').classList.remove('drawerOpen')}}
 function exportMarkdown(){if(!state.selected){toast('No hay documento seleccionado.');return}const f=state.files[state.selected],a=document.createElement('a');a.href=URL.createObjectURL(new Blob([f.content],{type:'text/markdown;charset=utf-8'}));a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('Exportado: '+f.name)}
-restore();applyTheme();$('#langSelect').value=state.lang;applyLang();wire();setMode(state.mode,false);applyAlign();$('#syncBtn').classList.toggle('active',state.sync);if(!state.sidebar&&innerWidth>900){$('#shell').style.gridTemplateColumns='0 minmax(0,1fr)'}if(state.selected&&state.files[state.selected])selectFile(state.selected);else showEmpty();
+restore();applyTheme();$('#langSelect').value=state.lang;applyLang();wire();setMode(state.mode,false);applyAlign();$('#syncBtn').classList.toggle('active',state.sync);if(!state.sidebar&&innerWidth>900){$('#shell').style.gridTemplateColumns='0 minmax(0,1fr)';document.body.classList.add('sidebar-hidden')}if(state.selected&&state.files[state.selected])selectFile(state.selected);else showEmpty();
 })();
 </script>
 <script>
