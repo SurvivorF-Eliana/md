@@ -1191,6 +1191,8 @@
         const nmFindbar = $('#nmFindbar');
         const nmFind = $('#nmFind');
         const nmReplace = $('#nmReplace');
+        const nmFindMeta = $('#nmFindMeta');
+        let lastRendered = '';
 
         // ===== PERSISTENCIA =====
         function saveSession() {
@@ -1829,13 +1831,12 @@
         document.querySelectorAll('.nm-align').forEach(b=>b.addEventListener('click',()=>{state.align=b.dataset.align;applyAlignV09();saveSession()}));
         if(nmSaveState){nmSaveState.textContent='SAVED';nmSaveState.className='nm-save-state saved'}
         if(nmMobileFiles)nmMobileFiles.addEventListener('click',toggleSidebar);
-        document.querySelectorAll('[data-nm-mode]').forEach(b=>b.addEventListener('click',()=>applyMode(b.dataset.nmMode)));
+        document.querySelectorAll('[data-nm-mode]').forEach(b=>b.addEventListener('click',()=>{applyMode(b.dataset.nmMode);document.querySelectorAll('[data-nm-mode]').forEach(x=>x.classList.toggle('active',x===b))}));
         document.querySelectorAll('#nmFindbar button').forEach(b=>{if(b.id==='nmFindClose')b.addEventListener('click',()=>nmFindbar.classList.remove('open'));else if(b.id==='nmNext')b.addEventListener('click',()=>moveFindV09(1));else if(b.id==='nmPrev')b.addEventListener('click',()=>moveFindV09(-1));else if(b.id==='nmReplaceOne')b.addEventListener('click',replaceOneV09);else if(b.id==='nmReplaceAll')b.addEventListener('click',replaceAllV09)});
-        $('#nmFindTop').addEventListener('click',openFindV09);$('#findBtn').addEventListener('click',openFindV09);
+        $('#nmFindTop').addEventListener('click',openFindV09);
         nmFind.addEventListener('input',updateFindV09);nmFind.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();moveFindV09(e.shiftKey?-1:1)}});
         window.addEventListener('keydown',e=>{if(e.key==='F2'&&state.selected){e.preventDefault();currentFileName.focus();currentFileName.select()}});
-        $('#nmSyncBtn')&&$('#nmSyncBtn').addEventListener('click',()=>{state.syncScroll=!state.syncScroll;saveSession()});
-        
+
     })();
 </script>
 
