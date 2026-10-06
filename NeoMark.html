@@ -261,6 +261,17 @@
     html = html.replace(/NeoMark v07/g,'NeoMark v08');
     html = html.replace(/NeoMark · loading…/g,'NeoMark v08');
 
+
+    const padPatch = `<style id="nm-pad">
+#sidebar.collapsed ~ #workspace .workspace-header{padding:0 28px 0 32px!important}
+#sidebar.collapsed ~ #workspace #toolbar{padding:6px 22px 6px 28px!important}
+#sidebar.collapsed ~ #workspace .preview-panel{padding:36px 48px 72px!important}
+#sidebar.collapsed ~ #workspace .editor-panel textarea{padding:28px 40px!important}
+.workspace-header{padding:0 18px}
+#toolbar{padding-left:14px;padding-right:14px}
+.preview-panel{padding:28px 36px 64px}
+</style>`;
+    html = html.replace('</head>', padPatch + '</head>');
     document.open();
     document.write(html);
     document.close();
