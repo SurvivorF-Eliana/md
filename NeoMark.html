@@ -3,35 +3,270 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NeoMark</title>
+<title>NeoMark · loading…</title>
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/e_Logo5.png" />
-<style>html,body{margin:0;height:100%;background:#111114;color:#e8e4dc;font-family:system-ui}.boot{display:flex;align-items:center;justify-content:center;height:100%}</style>
+<style>
+  html,body{margin:0;height:100%;background:#07070a;color:#e4e4ec;font-family:system-ui,sans-serif}
+  .boot{display:flex;align-items:center;justify-content:center;height:100%;gap:10px}
+</style>
 </head>
 <body>
-<div class="boot" id="boot">Cargando NeoMark…</div>
+<div class="boot" id="boot">Cargando NeoMark v07…</div>
 <script>
 (async function () {
-  var PAD = '<style id="nm-pad">'
-    + '.workspace-header{padding:0 22px!important}'
-    + '#toolbar{padding:6px 18px!important}'
-    + '#sidebar.collapsed ~ #workspace .workspace-header{padding:0 32px!important}'
-    + '#sidebar.collapsed ~ #workspace #toolbar{padding:8px 32px!important}'
-    + '#sidebar.collapsed ~ #workspace .preview-panel{padding:42px 7vw 88px!important}'
-    + '#sidebar.collapsed ~ #workspace .editor-panel textarea{padding:32px 7vw!important}'
-    + '#radioBtn,#neoAmbient{display:none!important}'
-    + '</style>';
+  const BASE = 'https://cdn.jsdelivr.net/gh/SurvivorF-Eliana/md@c5c36d6e29bd8770d6f683e1fa3f01483d9b5308/NeoMark.html';
+  const L5 = 'https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/e_Logo5.png';
+  const L6 = 'https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/e_Logo6.png';
+  const LB = 'https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/';
+  function need(html, s, label) {
+    if (html.indexOf(s) < 0) throw new Error('patch miss: ' + label);
+  }
   try {
-    var res = await fetch('https://cdn.jsdelivr.net/gh/SurvivorF-Eliana/md@c5c36d6e29bd8770d6f683e1fa3f01483d9b5308/NeoMark.html');
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    var html = await res.text();
-    if (html.indexOf('id="workspace"') < 0) throw new Error('respuesta invalida');
-    html = html.replace('</body>', PAD + '</body>');
+    const res = await fetch(BASE + '?v=07');
+    let html = await res.text();
+
+    html = html.replace(/<link rel="icon"[^>]*>/, '<link rel="icon" type="image/png" id="faviconEl" href="' + L5 + '" />');
+
+    if (html.indexOf('mammoth.browser.min.js') < 0) {
+      html = html.replace(
+        '<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"><' + '/script>',
+        '<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"><' + '/script>\n    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"><' + '/script>\n    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"><' + '/script>'
+      );
+    }
+
+    var oldLight = '        .light {\n            --bg: #f4f4f8;\n            --bg-secondary: #e6e6ee;\n            --bg-card: #ffffff;\n            --bg-hover: #dcdce6;\n            --text: #1a1a24;\n            --text-secondary: #4a4a5c;\n            --text-muted: #7a7a8c;\n            --primary: #007a9a;\n            --primary-dim: rgba(0, 122, 154, 0.12);\n            --border: #c8c8d4;\n            --border-light: #d4d4e0;\n            --toolbar-bg: #e0e0e8;\n        }';
+    need(html, oldLight, 'light-css');
+    html = html.replace(oldLight, '        .light, .paper {\n            --bg: #e8dcc4;\n            --bg-secondary: #d9cbb0;\n            --bg-card: #f3e8d0;\n            --bg-hover: #cfc0a4;\n            --text: #2a2118;\n            --text-secondary: #5c4e3a;\n            --text-muted: #8a7a62;\n            --primary: #6b4f2a;\n            --primary-dim: rgba(107, 79, 42, 0.14);\n            --border: #c4b392;\n            --border-light: #d4c6a8;\n            --toolbar-bg: #d4c6a8;\n        }\n        body.paper, body.light {\n            background-image:\n              radial-gradient(ellipse at 20% 10%, rgba(180,140,80,0.12), transparent 50%),\n              radial-gradient(ellipse at 80% 90%, rgba(120,90,50,0.08), transparent 45%);\n        }\n        body.paper #editorTextarea, body.light #editorTextarea { background: #f0e6d0; color: #2a2118; }\n        .logo img.brand { width:30px;height:30px;object-fit:contain;border-radius:6px;background:var(--bg-card);border:1px solid var(--border);cursor:pointer; }\n        .preview-panel.align-left{text-align:left}\n        .preview-panel.align-center{text-align:center}\n        .preview-panel.align-right{text-align:right}\n        .preview-panel.align-justify{text-align:justify;hyphens:auto}\n        .preview-panel.align-justify pre,.preview-panel.align-justify table,.preview-panel.align-justify code{text-align:left}\n        #toolbar button.align-active{color:var(--primary);background:var(--primary-dim)}');
+
+    var oldLogo = '    <div class="logo">\n        <div class="icon"><i class="fa-solid fa-cube"></i></div>\n        <span class="title">NeoMark</span>\n        <span class="badge-ver">v06</span>\n    </div>\n    <div class="header-actions">\n        <!-- Toggle Sidebar -->\n        <button id="toggleSidebarBtn" class="btn-icon" title="Toggle sidebar"><i class="fa-solid fa-bars"></i></button>';
+    need(html, oldLogo, 'logo');
+    html = html.replace(oldLogo, '    <div class="logo">\n        <img class="brand" id="brandLogo" alt="NeoMark" src="' + L5 + '" />\n        <span class="title">NeoMark</span>\n        <button id="toggleSidebarBtn" class="btn-icon" title="Toggle sidebar" style="width:30px;height:30px;"><i class="fa-solid fa-bars"></i></button>\n        <span class="badge-ver">v07</span>\n    </div>\n    <div class="header-actions">');
+
+    var oldRadio = '        <!-- Bot\u00f3n Radios -->\n        <button id="radioBtn" class="btn-icon" title="Fungi Radios"><i class="fa-solid fa-radio"></i></button>\n\n        <!-- Bot\u00f3n GitHub -->\n        <a href="https://github.com/Colind8/Fungi-Radio" target="_blank" class="btn-icon" title="GitHub"><i class="fa-brands fa-github"></i></a>';
+    need(html, oldRadio, 'radio');
+    html = html.replace(oldRadio, '        <!-- Bot\u00f3n GitHub -->\n        <a href="https://github.com/SurvivorF-Eliana/" target="_blank" class="btn-icon" title="GitHub SurvivorF-Eliana"><i class="fa-brands fa-github"></i></a>');
+
+    html = html.split('https://github.com/Colind8/Fungi-Radio').join('https://github.com/SurvivorF-Eliana/');
+    html = html.replace('accept=".md,.markdown,text/markdown"', 'accept=".md,.markdown,.txt,.html,.json,.xml,.csv,.tsv,.xlsx,.xls,.docx,.doc,.rtf,.css,.js,.ts"');
+    html = html.replace('Arrastrar .md', 'Arrastrar md / docx / csv / xlsx');
+    html = html.split('NeoMark v06').join('NeoMark v07');
+    html = html.replace("const STORAGE_KEY = 'neomark_v06';", "const STORAGE_KEY = 'neomark_v07';");
+
+    var oldTb = '            <button data-format="image"><i class="fa-solid fa-image"></i></button>\n            <div style="margin-left: auto; display: flex; gap: 4px;">';
+    need(html, oldTb, 'toolbar');
+    html = html.replace(oldTb, '            <button data-format="image"><i class="fa-solid fa-image"></i></button>\n            <span class="separator"></span>\n            <button type="button" data-align="left" title="Alinear izquierda"><i class="fa-solid fa-align-left"></i></button>\n            <button type="button" data-align="center" title="Centrar"><i class="fa-solid fa-align-center"></i></button>\n            <button type="button" data-align="right" title="Alinear derecha"><i class="fa-solid fa-align-right"></i></button>\n            <button type="button" data-align="justify" title="Justificar"><i class="fa-solid fa-align-justify"></i></button>\n            <div style="margin-left: auto; display: flex; gap: 4px;">');
+
+    var oldState = "            theme: 'dark',\n            sidebarVisible: true,\n            lang: 'es'\n        };";
+    need(html, oldState, 'state');
+    html = html.replace(oldState, "            theme: 'dark',\n            sidebarVisible: true,\n            lang: 'es',\n            align: 'left',\n            logoIdx: 0\n        };");
+
+    html = html.replace(
+      "if (state.theme === 'light') document.body.classList.add('light');",
+      "if (state.theme === 'light' || state.theme === 'paper') { state.theme = 'paper'; document.body.classList.add('paper','light'); }"
+    );
+
+    var oldLf = "        function loadFiles(files) {\n            Array.from(files).forEach(f => {\n                const reader = new FileReader();\n                reader.onload = e => {\n                    state.files[f.name] = { name: f.name, content: e.target.result };\n                    renderFileList();\n                    selectFile(f.name);\n                };\n                reader.readAsText(f);\n            });\n        }";
+    need(html, oldLf, 'loadFiles');
+    html = html.replace(oldLf, [
+      "        async function fileToMarkdown(file) {",
+      "            const name = file.name || 'archivo';",
+      "            const ext = (name.split('.').pop() || '').toLowerCase();",
+      "            const stem = name.replace(/\\.[^.]+$/, '');",
+      "            if (['md','markdown'].includes(ext)) return await file.text();",
+      "            if (['txt','text','log','rtf'].includes(ext)) return '# ' + stem + '\\n\\n' + (await file.text());",
+      "            if (['html','htm','json','xml','css','js','ts'].includes(ext)) return '# ' + stem + '\\n\\n```' + ext + '\\n' + (await file.text()) + '\\n```\\n';",
+      "            if (['csv','tsv'].includes(ext) && typeof XLSX !== 'undefined') { const wb = XLSX.read(await file.text(), {type:'string'}); return sheetToMd(wb); }",
+      "            if (['xlsx','xls'].includes(ext) && typeof XLSX !== 'undefined') { const wb = XLSX.read(await file.arrayBuffer(), {type:'array'}); return sheetToMd(wb); }",
+      "            if (['docx','doc'].includes(ext) && typeof mammoth !== 'undefined') {",
+      "              try { const r = await mammoth.convertToMarkdown({arrayBuffer: await file.arrayBuffer()}); return '# ' + stem + '\\n\\n' + (r.value||''); }",
+      "              catch (e) { return '# ' + stem + '\\n\\n> no pude leer este .' + ext; }",
+      "            }",
+      "            try { const t = await file.text(); if (t && t.indexOf('\\0') < 0) return '# ' + stem + '\\n\\n' + t; } catch (e) {}",
+      "            return '# ' + stem + '\\n\\n> formato .' + ext + ' no soportado';",
+      "        }",
+      "        function sheetToMd(wb) {",
+      "            const parts = [];",
+      "            wb.SheetNames.forEach(function(n,i){",
+      "              const rows = XLSX.utils.sheet_to_json(wb.Sheets[n], {header:1, raw:false, defval:''});",
+      "              if (!rows.length) return;",
+      "              parts.push((i? '## ':'# ') + n);",
+      "              const cols = Math.max.apply(null, rows.map(function(r){return r.length;}));",
+      "              const head = (rows[0]||[]).map(function(c){return String(c||' ').replace(/\\|/g,'\\\\|');});",
+      "              while (head.length < cols) head.push('');",
+      "              parts.push('', '| ' + head.join(' | ') + ' |', '| ' + head.map(function(){return '---';}).join(' | ') + ' |');",
+      "              rows.slice(1).forEach(function(r){ const cells=[]; for (var c=0;c<cols;c++) cells.push(String(r[c]==null?'':r[c]).replace(/\\|/g,'\\\\|')); parts.push('| ' + cells.join(' | ') + ' |'); });",
+      "              parts.push('');",
+      "            });",
+      "            return parts.join('\\n') || '# hoja vacia';",
+      "        }",
+      "        async function loadFiles(files) {",
+      "            for (const f of Array.from(files)) {",
+      "              try {",
+      "                const content = await fileToMarkdown(f);",
+      "                let key = /\\.md$/i.test(f.name) ? f.name : f.name.replace(/\\.[^.]+$/, '') + '.md';",
+      "                let unique = key, n = 2;",
+      "                while (state.files[unique] && state.files[unique].content !== content) { unique = key.replace(/\\.md$/i,'') + '-' + n + '.md'; n++; }",
+      "                state.files[unique] = { name: unique, content: content };",
+      "                renderFileList(); selectFile(unique);",
+      "              } catch (err) { alert('No pude leer ' + f.name + ': ' + (err.message || err)); }",
+      "            }",
+      "            saveSession();",
+      "        }",
+      "        function applyAlign(align) {",
+      "            state.align = align || 'left';",
+      "            previewPanel.classList.remove('align-left','align-center','align-right','align-justify');",
+      "            previewPanel.classList.add('align-' + state.align);",
+      "            document.querySelectorAll('[data-align]').forEach(function(b){ b.classList.toggle('align-active', b.dataset.align === state.align); });",
+      "            saveSession();",
+      "        }",
+      "        function applyBrand() {",
+      "            var paper = state.theme === 'paper' || state.theme === 'light';",
+      "            var set = paper ? ['e_Logo6.png','e_Logo4.png','e_Logo2.png'] : ['e_Logo5.png','e_Logo3.png','e_Logo1.png'];",
+      "            var src = '" + LB + "' + set[(state.logoIdx||0)%set.length];",
+      "            var logo = document.getElementById('brandLogo');",
+      "            var fav = document.getElementById('faviconEl');",
+      "            if (logo) logo.src = src; if (fav) fav.href = src;",
+      "            document.body.classList.toggle('paper', paper);",
+      "            document.body.classList.toggle('light', paper);",
+      "        }"
+    ].join('\n'));
+
+    html = html.replace(
+      "document.body.className = `mode-${mode} ${state.theme}`;",
+      "document.body.className = `mode-${mode} ${state.theme === 'light' ? 'paper' : state.theme}`;\n            if (typeof applyBrand === 'function') applyBrand();"
+    );
+
+    var oldTh = "            themeToggle.addEventListener('click', () => {\n                state.theme = state.theme === 'dark' ? 'light' : 'dark';\n                document.body.classList.toggle('light', state.theme === 'light');\n                applyMode(state.mode);\n            });";
+    need(html, oldTh, 'theme');
+    html = html.replace(oldTh, "            themeToggle.addEventListener('click', () => {\n                state.theme = state.theme === 'dark' ? 'paper' : 'dark';\n                if (typeof applyBrand === 'function') applyBrand();\n                applyMode(state.mode);\n            });\n            document.querySelectorAll('[data-align]').forEach(function(btn){\n              btn.addEventListener('click', function(){ applyAlign(btn.dataset.align); });\n            });\n            if (typeof applyAlign === 'function') applyAlign(state.align || 'left');\n            var brand = document.getElementById('brandLogo');\n            if (brand) brand.addEventListener('click', function(){ state.logoIdx = ((state.logoIdx||0)+1)%3; applyBrand(); saveSession(); });");
+
+    html = html.replace(
+      "radioBtn.addEventListener('click', () => {\n                radioPopup.classList.toggle('visible');\n            });",
+      "if (radioBtn) radioBtn.addEventListener('click', () => {\n                if (radioPopup) radioPopup.classList.toggle('visible');\n            });"
+    );
+
+    html = html.replace('<div id="radioPopup">', '<div id="radioPopup" style="display:none!important">');
+    html = html.replace(
+      'Cargá archivos .md, arrastrá documentos o usá las plantillas.',
+      'Cargá md, docx, csv, xlsx, txt… o usá las plantillas.'
+    );
+
+
+    // NeoMark Ambient 80s: self-contained Web Audio synth, no external audio files.
+    // Browser audio policy is respected: it starts only after the user presses play.
+    const ambientPatch = String.raw`
+<style id="neomarkAmbientStyle">
+#neoAmbient{position:fixed;right:18px;bottom:18px;z-index:99999;font:11px/1 JetBrains Mono,ui-monospace,monospace;color:#c8cbd3}
+#neoAmbient .na-toggle{width:38px;height:38px;border:1px solid rgba(255,255,255,.12);border-radius:9px;background:rgba(9,11,16,.94);color:#d6ff00;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.28);font-size:16px}
+#neoAmbient .na-panel{position:absolute;right:0;bottom:46px;width:280px;padding:10px;background:rgba(9,11,16,.97);border:1px solid rgba(255,255,255,.11);border-radius:10px;box-shadow:0 14px 40px rgba(0,0,0,.38);display:none}
+#neoAmbient.open .na-panel{display:block}
+#neoAmbient .na-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;color:#727987;font-size:8px;letter-spacing:.13em}
+#neoAmbient .na-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:#4b505b;margin-right:5px}
+#neoAmbient.playing .na-dot{background:#d6ff00;box-shadow:0 0 8px rgba(214,255,0,.8)}
+#neoAmbient .na-row{display:flex;align-items:center;gap:5px}
+#neoAmbient .na-row button{width:29px;height:27px;border:1px solid rgba(255,255,255,.09);border-radius:6px;background:#11141b;color:#aeb3bd;cursor:pointer}
+#neoAmbient .na-row .primary{color:#d6ff00}
+#neoAmbient .na-volume{display:flex;align-items:center;gap:6px;margin-left:auto;color:#6f7580;font-size:8px}
+#neoAmbient input[type=range]{width:68px;accent-color:#d6ff00}
+#neoAmbient .na-track{margin-top:9px;color:#555c68;font-size:8px;letter-spacing:.08em}
+#neoAmbient .na-track strong{color:#e8e9ed;font-weight:500}
+@media(max-width:600px){#neoAmbient{right:10px;bottom:10px}#neoAmbient .na-panel{right:0;width:calc(100vw - 20px);max-width:280px}}
+</style>
+<div id="neoAmbient" aria-label="Ambient music">
+  <button id="naToggle" class="na-toggle" aria-expanded="false" aria-label="Abrir reproductor">♫</button>
+  <div id="naPanel" class="na-panel" aria-hidden="true">
+    <div class="na-head"><span><span class="na-dot"></span> AMBIENT / 80S</span><span id="naState">PAUSED</span></div>
+    <div class="na-row"><button id="naPrev">‹</button><button id="naPlay" class="primary">▶</button><button id="naNext">›</button><span class="na-volume">VOL <input id="naVol" type="range" min="0" max="0.4" step="0.01" value="0.16"></span></div>
+    <div class="na-track">TRACK // <strong id="naName">NEON MEMORY</strong></div>
+  </div>
+</div>
+<script>
+(function(){
+  const tracks=[
+    {name:'NEON MEMORY',root:110,scale:[0,3,5,7,10],bpm:72,cut:1150},
+    {name:'TERMINAL RAIN',root:98,scale:[0,2,3,7,9],bpm:68,cut:900},
+    {name:'NIGHT CIRCUIT',root:82.41,scale:[0,2,5,7,10],bpm:76,cut:1300},
+    {name:'STATIC BLOOM',root:123.47,scale:[0,3,5,6,10],bpm:64,cut:1050}
+  ];
+  const ui={root:document.getElementById('neoAmbient'),toggle:document.getElementById('naToggle'),panel:document.getElementById('naPanel'),play:document.getElementById('naPlay'),prev:document.getElementById('naPrev'),next:document.getElementById('naNext'),name:document.getElementById('naName'),vol:document.getElementById('naVol'),state:document.getElementById('naState')};
+  let ctx=null,master=null,pad=[],noise=null,noiseGain=null,filter=null,lfo=null,lfoGain=null,timer=null,step=0,idx=0;
+  let volume=parseFloat(localStorage.getItem('neomark_ambient_volume')||'0.16');
+  ui.vol.value=volume;
+  function save(){localStorage.setItem('neomark_ambient_volume',String(volume));localStorage.setItem('neomark_ambient_track',String(idx));}
+  function hz(root,semitones){return root*Math.pow(2,semitones/12)}
+  function make(ctx, type, freq, gain, detune){
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.type=type;o.frequency.value=freq;o.detune.value=detune||0;g.gain.value=gain;o.connect(g);g.connect(filter);o.start();return o;
+  }
+  function startAudio(){
+    if(ctx) return;
+    const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+    ctx=new C(); master=ctx.createGain();master.gain.value=volume;master.connect(ctx.destination);
+    filter=ctx.createBiquadFilter();filter.type='lowpass';filter.frequency.value=tracks[idx].cut;filter.Q.value=.55;filter.connect(master);
+    lfo=ctx.createOscillator();lfo.type='sine';lfo.frequency.value=.065;lfoGain=ctx.createGain();lfoGain.gain.value=260;lfo.connect(lfoGain);lfoGain.connect(filter.frequency);lfo.start();
+    const t=tracks[idx];
+    pad=[make(ctx,'sawtooth',t.root,.035,-7),make(ctx,'sawtooth',hz(t.root,7),.028,7),make(ctx,'triangle',hz(t.root,12),.018,0)];
+    const buffer=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate),data=buffer.getChannelData(0);
+    for(let i=0;i<data.length;i++) data[i]=(Math.random()*2-1)*.32;
+    noise=ctx.createBufferSource();noise.buffer=buffer;noise.loop=true;
+    const bp=ctx.createBiquadFilter();bp.type='bandpass';bp.frequency.value=3600;bp.Q.value=.65;
+    noiseGain=ctx.createGain();noiseGain.gain.value=.012;noise.connect(bp);bp.connect(noiseGain);noiseGain.connect(master);noise.start();
+    schedule();
+  }
+  function schedule(){
+    clearInterval(timer);
+    const t=tracks[idx], ms=(60000/t.bpm)/2;
+    timer=setInterval(function(){
+      if(!ctx||ctx.state!=='running')return;
+      const now=ctx.currentTime, n=t.scale[step%t.scale.length], oct=(step%8===0?0:(step%8===4?12:0));
+      const o=ctx.createOscillator(),g=ctx.createGain();o.type='square';o.frequency.value=hz(t.root,n+oct+12);
+      g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.012,now+.018);g.gain.exponentialRampToValueAtTime(.0001,now+.18);
+      o.connect(g);g.connect(filter);o.start(now);o.stop(now+.2);step++;
+    },ms);
+  }
+  function updateTrack(){
+    ui.name.textContent=tracks[idx].name;step=0;
+    if(!ctx)return;
+    const t=tracks[idx];
+    filter.frequency.setTargetAtTime(t.cut,ctx.currentTime,.08);
+    pad.forEach((o,i)=>{const offs=[0,7,12][i];o.frequency.setTargetAtTime(hz(t.root,offs),ctx.currentTime,.3)});
+    schedule();save();
+  }
+  async function toggle(){
+    startAudio();if(!ctx)return;
+    try{
+      if(ctx.state!=='running'){
+        await ctx.resume();ui.play.textContent='Ⅱ';ui.state.textContent='PLAYING';ui.root.classList.add('playing');
+      }else{
+        await ctx.suspend();ui.play.textContent='▶';ui.state.textContent='PAUSED';ui.root.classList.remove('playing');
+      }
+    }catch(e){ui.state.textContent='AUDIO ERROR';console.error(e)}
+  }
+  function ensurePlaying(){
+    startAudio();if(!ctx)return;
+    if(ctx.state==='suspended') ctx.resume();
+    ui.play.textContent='Ⅱ';
+    ui.root.classList.add('playing');
+  }
+  ui.toggle.addEventListener('click',function(e){e.stopPropagation();const open=ui.root.classList.toggle('open');ui.toggle.setAttribute('aria-expanded',String(open));ui.panel.setAttribute('aria-hidden',String(!open))});
+  ui.play.addEventListener('click',function(e){e.stopPropagation();toggle()});
+  ui.prev.addEventListener('click',function(e){e.stopPropagation();idx=(idx-1+tracks.length)%tracks.length;updateTrack()});
+  ui.next.addEventListener('click',function(e){e.stopPropagation();idx=(idx+1)%tracks.length;updateTrack()});
+  document.addEventListener('click',function(e){if(!ui.root.contains(e.target)){ui.root.classList.remove('open');ui.toggle.setAttribute('aria-expanded','false');ui.panel.setAttribute('aria-hidden','true')}});
+  ui.vol.addEventListener('input',function(){volume=parseFloat(this.value);if(master)master.gain.setTargetAtTime(volume,ctx.currentTime,.03);save()});
+  const savedTrack=parseInt(localStorage.getItem('neomark_ambient_track')||'0',10);if(!isNaN(savedTrack))idx=Math.max(0,Math.min(tracks.length-1,savedTrack));updateTrack();
+})();
+` + '<' + '/script>';
+    html = html.replace('</body>', ambientPatch + '\n</body>');
+    html = html.replace(/NeoMark v07/g,'NeoMark v08');
+    html = html.replace(/NeoMark · loading…/g,'NeoMark v08');
+
     document.open();
     document.write(html);
     document.close();
   } catch (e) {
-    var el = document.getElementById('boot');
-    if (el) el.textContent = 'No carg\u00f3: ' + e.message;
+    document.getElementById('boot').textContent = 'Error: ' + e.message;
+    console.error(e);
   }
 })();
 </script>
