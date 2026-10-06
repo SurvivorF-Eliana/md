@@ -272,6 +272,12 @@
 .preview-panel{padding:28px 36px 64px}
 </style>`;
     html = html.replace('</head>', padPatch + '</head>');
+
+    html = html.replace('</head>', '<style id="nm-flags">.lang-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:24px;padding:2px}.lang-btn img{width:16px;height:16px;display:block;border-radius:2px}</style></head>');
+    var FLAGS = {"\uD83C\uDDEA\uD83C\uDDF8":"spain-emoji","\uD83C\uDDEC\uD83C\uDDE7":"united-kingdom-emoji","\uD83C\uDDEB\uD83C\uDDF7":"france-emoji","\uD83C\uDDEE\uD83C\uDDF9":"italy-emoji","\uD83C\uDDE9\uD83C\uDDEA":"germany-emoji","\uD83C\uDDE8\uD83C\uDDFF":"czechia-emoji","\uD83C\uDDF7\uD83C\uDDFA":"russia-emoji","\uD83C\uDDF5\uD83C\uDDF1":"poland-emoji","\uD83C\uDDE8\uD83C\uDDF3":"china-emoji","\uD83C\uDDF9\uD83C\uDDFC":"taiwan-emoji","\uD83C\uDDEF\uD83C\uDDF5":"japan-emoji","\uD83C\uDDF0\uD83C\uDDF7":"south-korea-emoji"};
+    Object.keys(FLAGS).forEach(function (emo) {
+      html = html.split(emo).join('<img alt="" src="https://img.icons8.com/emoji/48/' + FLAGS[emo] + '.png">');
+    });
     document.open();
     document.write(html);
     document.close();
