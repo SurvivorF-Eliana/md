@@ -770,6 +770,99 @@
   #toolbar{scrollbar-width:none}
   #toolbar::-webkit-scrollbar{display:none}
 }
+</style><style id="neo-v10-responsive">
+/* V10: layout containment + mobile-first split */
+html,body{width:100%;max-width:100%;overflow:hidden}
+main{width:100%;max-width:100%;min-width:0;height:calc(100vh - 54px)!important;overflow:hidden}
+#sidebar,#workspace,#workspaceContent,.workspace-header,#toolbar,.editor-panel,.preview-panel{min-width:0;min-height:0}
+#workspace{width:0;flex:1 1 auto}
+#workspaceContent{width:100%;display:grid!important;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);overflow:hidden!important}
+.mode-split #workspaceContent{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.mode-split .editor-panel,.mode-split .preview-panel{width:100%;max-width:100%;min-width:0;min-height:0;flex:none}
+.editor-panel{overflow:hidden}
+.nm-editor-scroll{width:100%;max-width:100%;min-width:0;overflow:hidden}
+.editor-panel textarea{width:0;min-width:0;max-width:100%;overflow:auto}
+.preview-panel{width:100%;max-width:100%;overflow:auto;overflow-wrap:anywhere}
+.preview-panel pre{max-width:100%;overflow:auto}
+.preview-panel table{display:block;max-width:100%;overflow-x:auto;overflow-y:hidden}
+.preview-panel img{max-width:100%;height:auto}
+.neo-logo{width:38px!important;height:38px!important;opacity:1!important;visibility:visible!important;background:transparent!important;border:0!important;object-fit:contain;flex:0 0 auto}
+.neo-header{min-width:0;overflow:hidden}
+.neo-header .neo-brand,.neo-header .header-actions{min-width:0}
+.neo-header .header-actions{overflow:hidden}
+.neo-file-name{min-width:0}
+.btn-primary,.btn-icon,.btn-mode,#toolbar button{flex:0 0 auto}
+
+/* Paper: stronger hierarchy and contrast */
+body.paper,body.light{
+--bg:#eee3cc;
+--bg-secondary:#dfd0b2;
+--bg-card:#faf1df;
+--bg-hover:#cbbc9d;
+--text:#241b12;
+--text-secondary:#4b3a27;
+--text-muted:#756148;
+--primary:#503419;
+--primary-dim:rgba(80,52,25,.15);
+--border:#ad9970;
+--border-light:#c0ad87;
+--toolbar-bg:#d1bf9c;
+}
+body.paper .neo-header,body.light .neo-header{background:#ddd0b4;border-bottom-color:#ae9b73}
+body.paper #sidebar,body.light #sidebar{background:#e2d3b6;border-right-color:#ae9b73}
+body.paper .workspace-header,body.light .workspace-header{background:#e6d8bc;border-bottom-color:#ae9b73}
+body.paper #toolbar,body.light #toolbar{background:#d0bd99;border-bottom-color:#ae9b73}
+body.paper .btn-icon,body.paper .btn-primary,body.light .btn-icon,body.light .btn-primary{color:#4a3824;border-color:#b5a17b}
+body.paper .btn-icon:hover,body.paper .btn-primary:hover,body.light .btn-icon:hover,body.light .btn-primary:hover{color:#271b10;border-color:#6a4a28;background:rgba(106,74,40,.12)}
+body.paper .btn-mode,body.light .btn-mode{color:#5c4930}
+body.paper .btn-mode.active,body.light .btn-mode.active{background:#2d2419;color:#f7ecd6;border-color:#2d2419}
+body.paper .file-item,body.light .file-item{color:#574530}
+body.paper .file-item:hover,body.light .file-item:hover{background:#d0c09f;color:#2a1e12}
+body.paper .file-item.active,body.light .file-item.active{background:#30271c;color:#f6ebd7;border-left-color:#6a4a28}
+body.paper #fileCount,body.light #fileCount{color:#3a2918;background:rgba(58,41,24,.12)}
+body.paper .preview-panel,body.light .preview-panel{background:#eee3cc;color:#241b12}
+body.paper .preview-panel h1,body.light .preview-panel h1{color:#4a3017}
+body.paper .preview-panel h2,body.light .preview-panel h2{color:#2b2117}
+body.paper .preview-panel h3,body.light .preview-panel h3{color:#55432e}
+body.paper .preview-panel code,body.light .preview-panel code{background:#f8edd9;border-color:#b9a47d;color:#2d2115}
+body.paper .preview-panel pre,body.light .preview-panel pre{background:#f8edd9;border-color:#b5a079}
+body.paper .preview-panel blockquote,body.light .preview-panel blockquote{background:#e2d3b6;color:#4b3a27;border-left-color:#6a4a28}
+body.paper .doc-tabs,body.light .doc-tabs{background:#e9dcc2}
+body.paper .doc-tab.active,body.light .doc-tab.active{background:#f6ead6;color:#241b12}
+body.paper .nm-save-state.saved,body.light .nm-save-state.saved{color:#3c2813;background:rgba(60,40,19,.1)}
+body.paper .import-zone,body.light .import-zone{border-color:#ab956d;color:#715e44}
+body.paper .import-zone:hover,body.light .import-zone:hover{border-color:#5c4024;color:#3b2816;background:rgba(80,52,25,.08)}
+
+@media(max-width:800px){
+main{height:calc(100vh - 52px)!important}
+#sidebar{display:flex!important;position:absolute!important;left:0;top:0;bottom:0;width:min(300px,88vw)!important;min-width:0!important;transform:translateX(-103%);z-index:60}
+#sidebar.mobile-open{transform:translateX(0)}
+#workspace{width:100%;min-width:0}
+#workspaceContent{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important}
+.mode-split #workspaceContent{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr) minmax(0,1fr)!important}
+.mode-split .editor-panel{border-right:0!important;border-bottom:1px solid var(--border)}
+.mode-split .editor-panel,.mode-split .preview-panel{height:auto!important;max-height:none!important;min-height:0!important}
+.mode-view #workspaceContent,.mode-edit #workspaceContent{grid-template-rows:minmax(0,1fr)!important}
+.workspace-header{overflow:hidden}
+.neo-file-name{font-size:12px!important;max-width:none!important;flex:1 1 auto}
+.hud-metrics{display:none!important}
+.workspace-actions{margin-left:auto;flex:0 0 auto}
+#toolbar{flex-wrap:nowrap!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none}
+#toolbar::-webkit-scrollbar{display:none}
+.doc-tabs{max-width:100%;min-width:0;overflow-x:auto}
+.neo-mobile-bar{z-index:95}
+}
+@media(max-width:620px){
+#nmFindTop,.neo-github,.neo-template{display:none!important}
+.neo-action span{display:none!important}
+.neo-action{width:34px!important;padding:0!important;justify-content:center}
+}
+@media(max-width:460px){
+.theme-btn{display:none!important}
+.neo-logo{width:34px!important;height:34px!important}
+.neo-select{width:72px!important;max-width:72px!important}
+.workspace-actions .btn-mode{padding-left:6px!important;padding-right:6px!important}
+}
 </style></head>
 <body class="mode-split">
 
@@ -1862,6 +1955,14 @@
             currentFileName.addEventListener('blur',commitFileNameV09);
         }
         if (nmGutter) editorTextarea.addEventListener('scroll',()=>{nmGutter.scrollTop=editorTextarea.scrollTop});
+        // Close mobile file drawer when tapping outside.
+        document.addEventListener('click',e=>{
+            if(window.innerWidth<=800 && sidebar.classList.contains('mobile-open') && !sidebar.contains(e.target) && !toggleSidebarBtn.contains(e.target)){
+                sidebar.classList.remove('mobile-open');
+                $('#shell').classList.remove('mobile-menu-open');
+            }
+        });
+        const neoMobileOutClose=document.createElement('span');neoMobileOutClose.id='neo-mobile-outside-close';
         document.querySelectorAll('[data-align]').forEach(btn=>btn.addEventListener('click',()=>{state.align=btn.dataset.align;applyAlignV09();saveSession()}));
         if (nmMobileFiles) nmMobileFiles.addEventListener('click',toggleSidebar);
         document.querySelectorAll('[data-nm-mode]').forEach(btn=>btn.addEventListener('click',()=>{applyMode(btn.dataset.nmMode);document.querySelectorAll('[data-nm-mode]').forEach(x=>x.classList.toggle('active',x===btn))}));
