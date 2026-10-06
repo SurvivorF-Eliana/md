@@ -5,42 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>NeoMark</title>
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/e_Logo5.png" />
-<style>html,body{margin:0;height:100%;background:#111114;color:#e8e4dc;font-family:system-ui} .boot{display:flex;align-items:center;justify-content:center;height:100%}</style>
+<style>html,body{margin:0;height:100%;background:#111114;color:#e8e4dc;font-family:system-ui}.boot{display:flex;align-items:center;justify-content:center;height:100%}</style>
 </head>
 <body>
 <div class="boot" id="boot">Cargando NeoMark…</div>
 <script>
 (async function () {
-  var POLISH = '<style id="nm-polish">'
-    + '#radioBtn,#neoAmbient,#ambientPlayer,.fungi-radio{display:none!important}'
+  var PAD = '<style id="nm-pad">'
     + '.workspace-header{padding:0 22px!important}'
     + '#toolbar{padding:6px 18px!important}'
     + '#sidebar.collapsed ~ #workspace .workspace-header{padding:0 32px!important}'
     + '#sidebar.collapsed ~ #workspace #toolbar{padding:8px 32px!important}'
     + '#sidebar.collapsed ~ #workspace .preview-panel{padding:42px 7vw 88px!important}'
     + '#sidebar.collapsed ~ #workspace .editor-panel textarea{padding:32px 7vw!important}'
-    + '.mode-view #toolbar{display:none!important}'
-    + '.mode-view .preview-panel{max-width:74ch;margin:0 auto;padding:48px 32px 88px!important}'
-    + '.preview-panel{background:var(--bg)!important;color:var(--text)!important}'
-    + '.preview-panel blockquote{background:transparent!important;border:none!important;border-left:2px solid var(--primary)!important;border-radius:0!important;padding:.15em 0 .15em 1em!important;margin:.8em 0!important;color:var(--text-secondary)!important;font-style:italic}'
-    + '.hud-metrics{opacity:.5;font-size:11px}'
-    + '.lang-selector{display:none}'
-    + '.lang-selector.open{display:flex;position:absolute;top:52px;right:16px;z-index:50;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:8px;flex-wrap:wrap;max-width:240px;gap:4px}'
-    + '</style><script>'
-    + 'document.addEventListener("DOMContentLoaded",function(){'
-    + 'var rb=document.getElementById("radioBtn"); if(rb) rb.remove();'
-    + 'var amb=document.getElementById("neoAmbient"); if(amb) amb.remove();'
-    + '});<' + '/script>';
+    + '#radioBtn,#neoAmbient{display:none!important}'
+    + '</style>';
   try {
-    var res = await fetch('https://cdn.jsdelivr.net/gh/SurvivorF-Eliana/md@def9faea9a8cd478627b73278a93f7379e45a031/NeoMark.html');
-    var src = await res.text();
-    if (src.indexOf('<!DOCTYPE') < 0) throw new Error('no pude recuperar el loader');
-    src = src.replace("html = html.replace('</body>', ambientPatch + '\\n</body>');", "html = html.replace('</body>', ambientPatch + " + JSON.stringify(POLISH) + " + '\\n</body>');");
+    var res = await fetch('https://cdn.jsdelivr.net/gh/SurvivorF-Eliana/md@c5c36d6e29bd8770d6f683e1fa3f01483d9b5308/NeoMark.html');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    var html = await res.text();
+    if (html.indexOf('id="workspace"') < 0) throw new Error('respuesta invalida');
+    html = html.replace('</body>', PAD + '</body>');
     document.open();
-    document.write(src);
+    document.write(html);
     document.close();
   } catch (e) {
-    document.getElementById('boot').textContent = 'Error: ' + e.message;
+    var el = document.getElementById('boot');
+    if (el) el.textContent = 'No carg\u00f3: ' + e.message;
   }
 })();
 </script>
