@@ -1482,9 +1482,15 @@
 
         // ===== TOGGLE SIDEBAR =====
         function toggleSidebar() {
-            state.sidebarVisible = !state.sidebarVisible;
-            sidebar.classList.toggle('collapsed', !state.sidebarVisible);
-            saveSession();
+            if (window.innerWidth <= 800) {
+                sidebar.classList.toggle('mobile-open');
+                $('#shell').classList.toggle('mobile-menu-open', sidebar.classList.contains('mobile-open'));
+                sidebar.classList.remove('collapsed');
+            } else {
+                state.sidebarVisible = !state.sidebarVisible;
+                sidebar.classList.toggle('collapsed', !state.sidebarVisible);
+                saveSession();
+            }
         }
 
         // ===== APPLY FORMAT =====
