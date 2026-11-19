@@ -85,6 +85,199 @@ body.sidebar-hidden .previewPane{padding-left:48px;padding-right:48px}
   .mode-view .content,.mode-edit .content{grid-template-rows:minmax(0,1fr)}
   .findBar,.tocDrawer{top:auto;bottom:64px;left:8px;right:8px;width:auto}
 }
+
+/* NeoMark document presentation pass — tables, reports and dense technical content */
+.previewPane{
+  padding:clamp(22px,3vw,40px) clamp(18px,3.2vw,48px) 96px;
+  font-size:15px;
+  line-height:1.72;
+  overflow-wrap:anywhere;
+}
+.previewInner{
+  width:min(1120px,100%);
+  max-width:1120px;
+  margin:0 auto;
+}
+.previewPane h1{
+  max-width:100%;
+  margin:0 0 1.15em;
+  padding:0 0 .52em;
+  font-size:clamp(1.75rem,2.4vw,2.25rem);
+  letter-spacing:-.035em;
+  line-height:1.13;
+  border-bottom:1px solid var(--line2);
+}
+.previewPane h2{
+  margin:2.1em 0 .7em;
+  padding-bottom:.42em;
+  font-size:1.38rem;
+  letter-spacing:-.02em;
+  border-bottom:1px solid var(--line);
+}
+.previewPane h3{
+  margin:1.65em 0 .55em;
+  font-size:1.08rem;
+  font-weight:700;
+  letter-spacing:-.01em;
+  color:var(--text);
+}
+.previewPane h4{
+  margin:1.35em 0 .45em;
+  font-size:.97rem;
+  font-weight:700;
+  color:var(--text2);
+}
+.previewPane p{max-width:90ch;margin:.78em 0;line-height:1.72}
+.previewPane ul,.previewPane ol{padding-left:1.45em;margin:.75em 0 1.1em}
+.previewPane li{padding-left:.18em;margin:.36em 0}
+.previewPane li::marker{color:var(--accent)}
+.previewPane strong{font-weight:700;color:var(--text)}
+.previewPane a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+.previewPane a:hover{border-bottom-color:var(--accent)}
+.previewPane blockquote{
+  margin:1.2em 0;
+  padding:.85em 1.05em;
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent);
+  border-radius:0 10px 10px 0;
+  background:var(--panel);
+  color:var(--text2);
+}
+.previewPane :not(pre)>code{
+  display:inline;
+  font-size:.84em;
+  overflow-wrap:anywhere;
+  color:var(--text);
+  background:var(--panel3);
+  border:1px solid var(--line);
+  padding:.16em .42em;
+  border-radius:5px;
+}
+.previewPane pre{
+  max-width:100%;
+  margin:1.25em 0;
+  padding:16px 17px;
+  overflow:auto;
+  border:1px solid var(--line2);
+  border-radius:11px;
+  background:var(--panel3);
+  box-shadow:inset 0 1px rgba(255,255,255,.025);
+}
+.previewPane pre code{
+  display:block;
+  min-width:max-content;
+  padding:0;
+  border:0;
+  background:transparent;
+  font:400 12px/1.7 var(--mono);
+  white-space:pre;
+}
+.copyCode{
+  opacity:.62;
+  transition:opacity .16s,border-color .16s,color .16s;
+}
+.previewPane pre:hover .copyCode,.previewPane pre:focus-within .copyCode{opacity:1}
+
+/* A real scroll viewport around each Markdown table.
+   The table itself keeps its natural column sizing and never squeezes into unreadable slivers. */
+.previewPane .tableScroll{
+  display:block;
+  width:100%;
+  max-width:100%;
+  margin:1.25rem 0 1.6rem;
+  overflow:auto;
+  overscroll-behavior-x:contain;
+  border:1px solid var(--line2);
+  border-radius:11px;
+  background:var(--panel3);
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+  scrollbar-width:thin;
+  scrollbar-color:var(--line2) transparent;
+}
+.previewPane .tableScroll:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+.previewPane .tableScroll table{
+  display:table;
+  width:max-content;
+  min-width:100%;
+  max-width:none;
+  margin:0;
+  border:0;
+  border-collapse:separate;
+  border-spacing:0;
+  table-layout:auto;
+  overflow:visible;
+  font-size:12px;
+  line-height:1.48;
+  color:var(--text);
+}
+.previewPane .tableScroll thead{position:sticky;top:0;z-index:3}
+.previewPane .tableScroll th{
+  min-width:108px;
+  max-width:270px;
+  padding:11px 13px;
+  border:0;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line2);
+  background:var(--panel2);
+  color:var(--text2);
+  text-align:left;
+  vertical-align:bottom;
+  font:600 10px/1.4 var(--mono);
+  letter-spacing:.035em;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+.previewPane .tableScroll td{
+  min-width:108px;
+  max-width:290px;
+  padding:10px 13px;
+  border:0;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  color:var(--text2);
+  text-align:left;
+  vertical-align:top;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:normal;
+  font-size:12px;
+  line-height:1.5;
+}
+.previewPane .tableScroll th:last-child,
+.previewPane .tableScroll td:last-child{border-right:0}
+.previewPane .tableScroll tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--panel2) 46%,transparent)}
+.previewPane .tableScroll tbody tr:hover td{background:var(--accentSoft);color:var(--text)}
+.previewPane .tableScroll tbody tr:last-child td{border-bottom:0}
+.previewPane .tableScroll td code{font-size:10px;white-space:normal}
+.previewPane .tableScroll p{margin:0;max-width:none}
+.previewPane img{max-width:100%;height:auto}
+.previewPane hr{margin:2.2em 0;border:0;border-top:1px solid var(--line2)}
+.previewEmpty{
+  display:grid;place-items:center;min-height:180px;
+  border:1px dashed var(--line);border-radius:12px;
+  color:var(--muted);font:500 10px var(--mono);letter-spacing:.08em;
+}
+.previewError{
+  padding:18px;border:1px solid color-mix(in srgb,var(--danger) 35%,var(--line));
+  border-radius:10px;color:var(--danger);font:500 11px var(--mono);
+  background:color-mix(in srgb,var(--danger) 6%,var(--panel));
+}
+@media(max-width:900px){
+  .previewPane{padding:22px 17px 100px;font-size:14px}
+  .previewInner{width:100%;max-width:none}
+  .previewPane .tableScroll{margin:1rem 0 1.3rem;border-radius:9px}
+  .previewPane .tableScroll th,.previewPane .tableScroll td{min-width:100px;padding:9px 10px}
+  .previewPane .tableScroll table{font-size:11px}
+  .previewPane pre{padding:13px}
+  .previewPane pre code{font-size:11px}
+}
+@media(max-width:440px){
+  .previewPane{padding-left:13px;padding-right:13px}
+  .previewPane .tableScroll th,.previewPane .tableScroll td{min-width:94px;padding:8px 9px;font-size:10px}
+}
 </style>
 </head>
 <body>
@@ -181,7 +374,39 @@ function sanitize(root){root.querySelectorAll('script,iframe,object,embed,form,s
 function addCopy(pre){if(pre.querySelector('.copyCode'))return;const b=document.createElement('button');b.className='copyCode';b.textContent='COPY';b.addEventListener('click',()=>copyText(pre.querySelector('code')?.innerText||pre.innerText).then(()=>toast('Código copiado.')));pre.appendChild(b)}
 function applyAlign(){const inner=$('#previewInner');inner.style.textAlign=state.align;inner.querySelectorAll('pre,table,code').forEach(e=>e.style.textAlign='left');$$('.align-btn').forEach(b=>b.classList.toggle('active',b.dataset.align===state.align))}
 function generateTOC(){const list=$('#tocList');list.innerHTML='';const hs=$$('#previewInner h1,#previewInner h2,#previewInner h3');if(!hs.length){list.textContent='Sin headings';return}hs.forEach((h,i)=>{h.id='nm-head-'+i;const a=document.createElement('a');a.className='tocItem';a.textContent=h.textContent;a.href='#'+h.id;a.style.paddingLeft=(4+(Number(h.tagName.slice(1))-1)*10)+'px';a.addEventListener('click',e=>{e.preventDefault();h.scrollIntoView({behavior:'smooth',block:'start'});$('#tocDrawer').classList.remove('open')});list.appendChild(a)})}
-function renderPreviewNow(md){if(md===lastRendered)return;lastRendered=md;const root=$('#previewInner');if(!md.trim()){root.innerHTML='<div style="padding:40px;text-align:center;color:var(--muted)">[ vacío ]</div>';return}try{root.innerHTML=marked.parse(md);sanitize(root);root.querySelectorAll('pre code').forEach(b=>{try{hljs.highlightElement(b)}catch(e){}});root.querySelectorAll('pre').forEach(addCopy);applyAlign();generateTOC()}catch(e){root.innerHTML='<div style="padding:20px;color:var(--danger);font:500 11px var(--mono)">RENDER ERROR // '+esc(e.message)+'</div>'}}
+function wrapTables(root){
+  root.querySelectorAll('table').forEach((table,index)=>{
+    if(table.parentElement&&table.parentElement.classList.contains('tableScroll'))return;
+    const wrap=document.createElement('div');
+    wrap.className='tableScroll';
+    wrap.setAttribute('role','region');
+    wrap.setAttribute('aria-label','Tabla '+(index+1)+' · desplazamiento horizontal');
+    wrap.setAttribute('tabindex','0');
+    table.parentNode.insertBefore(wrap,table);
+    wrap.appendChild(table);
+  });
+}
+function renderPreviewNow(md){
+  if(md===lastRendered)return;
+  lastRendered=md;
+  const root=$('#previewInner');
+  if(!md.trim()){
+    root.innerHTML='<div class="previewEmpty">[ EMPTY DOCUMENT ]</div>';
+    generateTOC();
+    return;
+  }
+  try{
+    root.innerHTML=marked.parse(md);
+    sanitize(root);
+    root.querySelectorAll('pre code').forEach(block=>{try{hljs.highlightElement(block)}catch(e){}});
+    wrapTables(root);
+    root.querySelectorAll('pre').forEach(addCopy);
+    applyAlign();
+    generateTOC();
+  }catch(e){
+    root.innerHTML='<div class="previewError">RENDER ERROR // '+esc(e.message)+'</div>';
+  }
+}
 function copyText(t){if(navigator.clipboard?.writeText)return navigator.clipboard.writeText(t);return new Promise(r=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();r()})}
 function applyFormat(f){const t=$('#editor'),a=t.selectionStart,b=t.selectionEnd,v=t.value,s=v.slice(a,b);let o='';if(f==='bold')o='**'+(s||'texto')+'**';else if(f==='italic')o='*'+(s||'texto')+'*';else if(f==='strike')o='~~'+(s||'texto')+'~~';else if(/^h[123]$/.test(f)){const p=f==='h1'?'# ':f==='h2'?'## ':'### ';o=s?s.split('\n').map(x=>p+x.replace(/^\s*#{1,6}\s*/,'')).join('\n'):p+'Título'}else if(f==='ul')o=s?s.split('\n').map(x=>'- '+x.replace(/^\s*(?:[-*+]\s+|\d+\.\s+)/,'')).join('\n'):'- elemento';else if(f==='ol')o=s?s.split('\n').map((x,i)=>(i+1)+'. '+x.replace(/^\s*(?:[-*+]\s+|\d+\.\s+)/,'')).join('\n'):'1. elemento';else if(f==='checklist')o=s?s.split('\n').map(x=>'- [ ] '+x.replace(/^\s*-\s+\[[ xX]\]\s+/,'').replace(/^\s*-\s+/,'')).join('\n'):'- [ ] tarea';else if(f==='blockquote')o=s?s.split('\n').map(x=>'> '+x.replace(/^>\s?/,'')).join('\n'):'> cita';else if(f==='code')o='`'+(s||'código')+'`';else if(f==='codeblock')o='~~~\n'+(s||'// código aquí')+'\n~~~';else if(f==='link')o='['+(s||'texto del enlace')+'](https://ejemplo.com)';else if(f==='image')o='!['+(s||'texto alternativo')+'](https://ejemplo.com/imagen.jpg)';else if(f==='table')o='| Columna 1 | Columna 2 |\n| --- | --- |\n| Dato | Dato |';else return;t.setRangeText(o,a,b,'end');markDirty();t.focus()}
 function openFind(){const b=$('#findBar');b.classList.add('open');setTimeout(()=>$('#findInput').focus(),0)}
