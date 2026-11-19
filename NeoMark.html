@@ -286,7 +286,7 @@ body.sidebar-hidden .previewPane{padding-left:48px;padding-right:48px}
   <div class="brandArea">
     <button id="menuBtn" class="iconBtn menuBtn" aria-label="Archivos"><i class="fa-solid fa-bars"></i></button>
     <img id="brandLogo" class="brandLogo" alt="NeoMark logo">
-    <div class="brandCopy"><strong>NeoMark</strong><span class="version">v11</span></div>
+    <div class="brandCopy"><strong>NeoMark</strong><span class="version">v12</span></div>
   </div>
   <div class="topActions">
     <img id="langFlag" class="langFlag" alt="" src="https://img.icons8.com/emoji/48/spain-emoji.png"><select id="langSelect" class="topSelect" aria-label="Idioma"><option value="es">ES</option><option value="en">GB</option><option value="fr">FR</option><option value="it">IT</option><option value="de">DE</option><option value="cs">CZ</option><option value="ru">RU</option><option value="pl">PL</option><option value="zh">CN</option><option value="zh-tw">TW</option><option value="ja">JP</option><option value="ko">KR</option></select>
@@ -449,5 +449,5 @@ async function toggle(){start();if(!ctx){ui.state.textContent='UNAVAILABLE';retu
 ui.t.addEventListener('click',e=>{e.stopPropagation();const o=ui.r.classList.toggle('open');ui.t.setAttribute('aria-expanded',String(o))});ui.play.addEventListener('click',e=>{e.stopPropagation();toggle()});ui.prev.addEventListener('click',e=>{e.stopPropagation();idx=(idx-1+tracks.length)%tracks.length;update()});ui.next.addEventListener('click',e=>{e.stopPropagation();idx=(idx+1)%tracks.length;update()});ui.vol.addEventListener('input',()=>{vol=parseFloat(ui.vol.value);if(master)master.gain.setTargetAtTime(vol,ctx.currentTime,.03);localStorage.setItem('neomark_ambient_volume',String(vol))});document.addEventListener('click',e=>{if(!ui.r.contains(e.target))ui.r.classList.remove('open')});const saved=parseInt(localStorage.getItem('neomark_ambient_track')||'0',10);if(!isNaN(saved))idx=Math.max(0,Math.min(tracks.length-1,saved));update();
 })();
 </script>
-<script src="./neomark-suite.js?v=12"></script>
+<script src="./neomark-suite.js?v=13"></script>
 </body></html>
