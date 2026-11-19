@@ -3,7 +3,7 @@
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],ed=$('#editor');
 if(!ed||$('#nmSuite'))return;
 const dbName='NeoMarkSuiteDB',defaults=[['Note','> [!NOTE]\n> Add context here.\n'],['Warning','> [!WARNING]\n> Describe the risk.\n'],['Mermaid','```mermaid\nflowchart TD\n A[Start] --> B[Process]\n B --> C[End]\n```'],['Math','$$\nE = mc^2\n$$'],['Table','| Parameter | Value | Status |\n| --- | --- | --- |\n| Example | — | Pending |']];
-let db,tableRows=[],tableRange=null;
+let db,tableRows=[],tableRange=null;const state={tables:[],tableIndex:0};
 const doc=()=>({name:$('#fileNameInput')?.value||'document.md',text:ed.value||''});
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||'null')??d}catch{return d}};
